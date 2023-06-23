@@ -29,14 +29,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
-      - name: Set up R ${{ matrix.r-version }}
-        uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
-        with:
-          r-version: ${{ matrix.r-version }}
-      - name: Instalar Dependencias
-        run: |
-          install.packages(c("testthat", "here"))
-        shell: Rscript {0}
-      - name: Ejecutar Tests
+      - name: Instalar dependencias
+        run: Rscript -e "install.packages(c('testthat', 'here'))"
+      - name: Run tests
         run: Rscript -e "source('tests/testthat.R')"
-        shell: Rscript {0}
