@@ -5,13 +5,13 @@ on:
   push:
     branches: [ "master" ]
     paths:
-    - '.github/workflows/tests.yml'
+    - '.github/workflows/test-workflow-config.yml'
     - 'code/*'
     - 'tests/testthat/*'
   pull_request:
     branches: [ "master" ]
     paths:
-    - '.github/workflows/tests.yml'
+    - '.github/workflows/test-workflow-config.yml'
     - 'code/*'
     - 'tests/testthat/*'
     
@@ -31,5 +31,5 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Instalar dependencias
         run: Rscript -e "install.packages(c('testthat', 'here'))"
-      - name: Run tests
+      - name: Ejecutar Tests
         run: Rscript -e "source('tests/testthat.R')"
