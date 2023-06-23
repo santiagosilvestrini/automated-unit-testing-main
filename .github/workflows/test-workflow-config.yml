@@ -1,0 +1,41 @@
+name: Test Automatizados
+
+# Configurar cuando se va a ejecutar el workflow
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+    - '.github/workflows/tests.yml'
+    - 'code/*'
+    - 'tests/testthat/*'
+  pull_request:
+    branches: [ "master" ]
+    paths:
+    - '.github/workflows/tests.yml'
+    - 'code/*'
+    - 'tests/testthat/*'
+    
+  # Permite ejectuar el workflow manualmente desde la pestaña de Actions
+  workflow_dispatch:
+  
+jobs:
+  tests:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        r-version: ['4.1.1', '4.3.0']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up R ${{ matrix.r-version }}
+        uses: r-lib/actions/setup-r@f57f1301a053485946083d7a45022b278929a78a
+        with:
+          r-version: ${{ matrix.r-version }}
+      - name: Instalar Dependencias
+        run: |
+          install.packages(c("remotes", "testthat", "here"))
+          remotes::install_deps(dependencies = TRUE)
+        shell: Rscript {0}
+      - name: Ejecutar Tests
+        run: Rscript -e "source('tests/testthat.R')"
+        shell: Rscript {0}
