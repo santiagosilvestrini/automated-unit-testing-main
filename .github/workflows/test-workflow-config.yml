@@ -26,7 +26,7 @@ jobs:
         r-version: ['4.3.0']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Set up R ${{ matrix.r-version }}
@@ -35,8 +35,7 @@ jobs:
           r-version: ${{ matrix.r-version }}
       - name: Instalar Dependencias
         run: |
-          install.packages(c("remotes", "testthat", "here"))
-          remotes::install_deps(dependencies = TRUE)
+          install.packages(c("testthat", "here"))
         shell: Rscript {0}
       - name: Ejecutar Tests
         run: Rscript -e "source('tests/testthat.R')"
